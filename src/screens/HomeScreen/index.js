@@ -9,7 +9,6 @@ export default (props) => {
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
-    console.log('hey :>> ');
     getData();
   });
 
@@ -17,7 +16,6 @@ export default (props) => {
     setLoading(true);
     try {
       const email = await AsyncStorage.getItem('@email');
-      console.log('email :>> ', email);
       if (email !== null) {
         setEmail(email);
       }
@@ -37,7 +35,6 @@ export default (props) => {
       setLoading(false);
       navigation.push('LoginScreen');
     } catch (e) {
-      console.log('e :>> ', e);
       setLoading(false);
     }
   };
