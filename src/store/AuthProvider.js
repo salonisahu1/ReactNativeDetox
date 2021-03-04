@@ -11,6 +11,7 @@ export const AuthProvider = ({children}) => {
       await auth().signInWithEmailAndPassword(email, password);
     } catch (e) {
       console.log('error login :>> ', e);
+      return e;
     }
   };
   const register = async (email, password) => {
@@ -18,6 +19,7 @@ export const AuthProvider = ({children}) => {
       await auth().createUserWithEmailAndPassword(email, password);
     } catch (e) {
       console.log('error register :>> ', e);
+      return e;
     }
   };
   const logout = async () => {
@@ -25,6 +27,7 @@ export const AuthProvider = ({children}) => {
       await auth().signOut();
     } catch (e) {
       console.log('error logout :>> ', e);
+      return e;
     }
   };
   return (

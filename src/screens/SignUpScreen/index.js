@@ -80,7 +80,24 @@ export default (props) => {
       />
       <Button
         mode="contained"
-        onPress={() => register(email, password)}
+        onPress={async () => {
+          const err = await register(email, password);
+          if (err) {
+            Alert.alert(
+              'Error',
+              err?.code,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {text: 'OK', onPress: () => console.log('OK Pressed')},
+              ],
+              {cancelable: false},
+            );
+          }
+        }}
         style={{margin: 10, paddingVertical: 10}}>
         Sign Up
       </Button>

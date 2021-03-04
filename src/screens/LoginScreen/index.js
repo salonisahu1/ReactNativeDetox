@@ -45,7 +45,24 @@ export default (props) => {
       />
       <Button
         mode="contained"
-        onPress={() => login(email, password)}
+        onPress={async () => {
+          const err = await login(email, password);
+          if (err) {
+            Alert.alert(
+              'Error',
+              err?.code,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {text: 'OK', onPress: () => console.log('OK Pressed')},
+              ],
+              {cancelable: false},
+            );
+          }
+        }}
         style={{margin: 10, paddingVertical: 10}}>
         Login
       </Button>
