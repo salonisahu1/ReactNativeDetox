@@ -10,6 +10,7 @@ target 'ReactNativeDetox' do
   
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'OpenSSL-Universal', '~>1.0.2.20'
 
   target 'ReactNativeDetoxTests' do
     inherit! :complete
@@ -23,7 +24,12 @@ target 'ReactNativeDetox' do
   use_flipper!
   post_install do |installer|
     flipper_post_install(installer)
-  end
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+      end
+    end
+   end
 end
 
 target 'ReactNativeDetox-tvOS' do

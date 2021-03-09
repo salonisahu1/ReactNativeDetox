@@ -25,7 +25,8 @@ export default (props) => {
           fontSize: 26,
           marginBottom: 10,
           fontWeight: '500',
-        }}>
+        }}
+        testID="Login">
         Login
       </Text>
       <TextInput
