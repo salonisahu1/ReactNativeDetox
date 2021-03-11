@@ -35,6 +35,7 @@ export default (props) => {
         onChangeText={(text) => setEmail(text)}
         mode="outlined"
         style={{margin: 10}}
+        testID="Email"
       />
       <TextInput
         label="Password"
@@ -43,6 +44,7 @@ export default (props) => {
         mode="outlined"
         style={{margin: 10}}
         secureTextEntry={true}
+        testID="Password"
       />
       <Button
         mode="contained"
@@ -64,7 +66,8 @@ export default (props) => {
             );
           }
         }}
-        style={{margin: 10, paddingVertical: 10}}>
+        style={{margin: 10, paddingVertical: 10}}
+        testID="LoginButton">
         Login
       </Button>
       <Button

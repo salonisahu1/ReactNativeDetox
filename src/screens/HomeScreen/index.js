@@ -21,7 +21,8 @@ export default (props) => {
           fontSize: 26,
           marginBottom: 10,
           fontWeight: '500',
-        }}>
+        }}
+        testID="WelcomeText">
         Hey, {user?.email}
       </Text>
       <Button
@@ -49,7 +50,8 @@ export default (props) => {
           paddingVertical: 10,
           width: 150,
           alignSelf: 'center',
-        }}>
+        }}
+        testID="LogoutButton">
         Log Out
       </Button>
     </View>
