@@ -3,6 +3,7 @@ import {useContext} from 'react';
 import {View, Text, Alert} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import {AuthContext} from '../../store/AuthProvider';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default (props) => {
   const {navigation} = props;
@@ -14,30 +15,6 @@ export default (props) => {
 
   const {register} = useContext(AuthContext);
 
-  const signup = async (value) => {
-    setLoading(true);
-    try {
-      navigation.navigate('HomeScreen');
-      setLoading(false);
-    } catch (e) {
-      // saving error
-      console.log('e :>> ', e);
-      Alert.alert(
-        'Error',
-        'Something went Wrong. Please try again..',
-        [
-          {
-            text: 'Ok',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-        ],
-        {cancelable: false},
-      );
-      setLoading(false);
-    }
-  };
-
   return (
     <View
       style={{
@@ -46,6 +23,7 @@ export default (props) => {
         justifyContent: 'center',
         padding: 20,
       }}>
+      <Spinner visible={loading} />
       <Text
         style={{
           alignSelf: 'center',
@@ -81,22 +59,27 @@ export default (props) => {
       <Button
         mode="contained"
         onPress={async () => {
-          const err = await register(email, password);
-          if (err) {
-            Alert.alert(
-              'Error',
-              err?.code,
-              [
-                {
-                  text: 'Cancel',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel',
-                },
-                {text: 'OK', onPress: () => console.log('OK Pressed')},
-              ],
-              {cancelable: false},
-            );
-          }
+          setLoading(true);
+          register(email, password)
+            .then((res) => {
+              //
+            })
+            .catch((err) => {
+              Alert.alert(
+                'Error',
+                err?.code,
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                {cancelable: false},
+              );
+            })
+            .finally(() => setLoading(false));
         }}
         style={{margin: 10, paddingVertical: 10}}>
         Sign Up
