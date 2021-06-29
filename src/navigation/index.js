@@ -7,6 +7,7 @@ import {AuthContext} from '../store/AuthProvider';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import Config from 'react-native-config';
 
 export default () => {
   const {user, setUser} = useContext(AuthContext);
@@ -19,8 +20,7 @@ export default () => {
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId:
-        '532402594739-nf7qob4l5a3sub8995mfakrngijm7vtm.apps.googleusercontent.com',
+      webClientId: Config.WEB_CLIENT_ID,
     });
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
