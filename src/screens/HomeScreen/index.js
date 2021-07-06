@@ -1,11 +1,56 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
-import {Button} from 'react-native-paper';
+import {Button, TextInput} from 'react-native-paper';
 import {AuthContext} from '../../store/AuthProvider';
+import firestore from '@react-native-firebase/firestore';
 
 export default (props) => {
   const {navigation} = props;
   const {user, logout} = useContext(AuthContext);
+  const [posts, setPosts] = useState([{}]);
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [refetch, setRefetch] = useState(true);
+
+  useEffect(() => {
+    const subscriber = firestore();
+    if (refetch) {
+      subscriber
+        .collection('posts')
+        .get()
+        .then((snapshot) => {
+          console.log('snapshot :>> ', snapshot);
+          let postsData = [];
+          snapshot.docs.forEach((doc) => {
+            postsData.push(doc.data());
+          });
+          setPosts(postsData);
+        })
+        .catch((error) => {
+          console.error('Error reading document: ', error);
+        })
+        .finally(() => setRefetch(false));
+    }
+    return () => subscriber;
+  }, [refetch]);
+
+  const addNew = () => {
+    firestore()
+      .collection('posts')
+      .add({
+        title: title,
+        description: desc,
+      })
+      .then(() => {
+        console.log('Document successfully written!');
+        setTitle('');
+        setDesc('');
+        setRefetch(true);
+      })
+      .catch((error) => {
+        console.error('Error writing document: ', error);
+      });
+  };
 
   return (
     <View
@@ -28,8 +73,7 @@ export default (props) => {
       <Button
         mode="contained"
         onPress={async () => {
-          const err = await logout();
-          if (err) {
+          logout().catch((err) => {
             Alert.alert(
               'Error',
               err?.code,
@@ -43,7 +87,7 @@ export default (props) => {
               ],
               {cancelable: false},
             );
-          }
+          });
         }}
         style={{
           margin: 10,
@@ -54,6 +98,35 @@ export default (props) => {
         testID="LogoutButton">
         Log Out
       </Button>
+      <TextInput
+        label="Post Name"
+        value={title}
+        onChangeText={(title) => setTitle(title)}
+        mode="outlined"
+        style={{margin: 10}}
+      />
+      <TextInput
+        label="Description"
+        value={desc}
+        onChangeText={(data) => setDesc(data)}
+        mode="outlined"
+        multiline
+        style={{margin: 10}}
+      />
+      <Button
+        mode="contained"
+        onPress={addNew}
+        style={{
+          margin: 10,
+          paddingVertical: 10,
+          width: 150,
+          alignSelf: 'center',
+        }}>
+        Add
+      </Button>
+      {posts.map((post, index) => (
+        <Text key={index}>{post?.title}</Text>
+      ))}
     </View>
   );
 };
