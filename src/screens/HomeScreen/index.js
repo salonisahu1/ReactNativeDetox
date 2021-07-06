@@ -10,29 +10,20 @@ export default (props) => {
   const [posts, setPosts] = useState([{}]);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
-  const [refetch, setRefetch] = useState(true);
 
   useEffect(() => {
-    const subscriber = firestore();
-    if (refetch) {
-      subscriber
-        .collection('posts')
-        .get()
-        .then((snapshot) => {
-          console.log('snapshot :>> ', snapshot);
-          let postsData = [];
-          snapshot.docs.forEach((doc) => {
-            postsData.push(doc.data());
-          });
-          setPosts(postsData);
-        })
-        .catch((error) => {
-          console.error('Error reading document: ', error);
-        })
-        .finally(() => setRefetch(false));
-    }
+    const subscriber = firestore()
+      .collection('posts')
+      .onSnapshot((snapshot) => {
+        console.log('snapshot :>> ', snapshot);
+        let postsData = [];
+        snapshot.docs.forEach((doc) => {
+          postsData.push(doc.data());
+        });
+        setPosts(postsData);
+      });
     return () => subscriber;
-  }, [refetch]);
+  }, []);
 
   const addNew = () => {
     firestore()
@@ -45,7 +36,6 @@ export default (props) => {
         console.log('Document successfully written!');
         setTitle('');
         setDesc('');
-        setRefetch(true);
       })
       .catch((error) => {
         console.error('Error writing document: ', error);
