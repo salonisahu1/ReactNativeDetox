@@ -14,14 +14,17 @@ export default (props) => {
   useEffect(() => {
     const subscriber = firestore()
       .collection('posts')
-      .onSnapshot((snapshot) => {
-        console.log('snapshot :>> ', snapshot);
-        let postsData = [];
-        snapshot.docs.forEach((doc) => {
-          postsData.push(doc.data());
-        });
-        setPosts(postsData);
-      });
+      .onSnapshot(
+        (snapshot) => {
+          console.log('snapshot :>> ', snapshot);
+          let postsData = [];
+          snapshot.docs.forEach((doc) => {
+            postsData.push(doc.data());
+          });
+          setPosts(postsData);
+        },
+        (err) => console.log(err.message),
+      );
     return () => subscriber;
   }, []);
 
