@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "532402594739",
+    "project_id": "reactnativedetox",
+    "storage_bucket": "reactnativedetox.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532402594739:android:192eb942b4d915630721c6",
+        "android_client_info": {
+          "package_name": "com.reactnativedetox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532402594739-nf7qob4l5a3sub8995mfakrngijm7vtm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbIR_mGPHoyFP4HL_iTxSUtKRqj0YcMO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532402594739-nf7qob4l5a3sub8995mfakrngijm7vtm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "532402594739-pd9bcvf2meivdrf17ag8kg5nhidhdga9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ReactNativeDetox.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
